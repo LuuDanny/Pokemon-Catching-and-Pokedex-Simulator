@@ -10,6 +10,14 @@ import java.util.*;
 
 public class PokemonPanel extends JPanel {
    
+   /** Pokemon image. */
+   ImageIcon pokemon = new ImageIcon("Images/Pokemon.png");
+   /** Pokedex image. */
+   ImageIcon pokedex = new ImageIcon("Images/Pokedex.png");
+   /** Backpack image. */
+   ImageIcon backpack = new ImageIcon("Images/Backpack.png");
+   
+   
    /** Label. */
    private JLabel lPokemon = new JLabel("Pokemon");
    /** Label. */
@@ -20,11 +28,11 @@ public class PokemonPanel extends JPanel {
    private JLabel lSort = new JLabel("Sort By:  ");
    
    /** Button. */
-   private JButton bPokemon = new JButton("Make Pokemon");
+   private JButton bPokemon = new JButton(pokemon);
    /** Button. */
-   private JButton bPokedex = new JButton("Pokedex");
+   private JButton bPokedex = new JButton(pokedex);
    /** Button. */
-   private JButton bBackpack = new JButton("Backpack");
+   private JButton bBackpack = new JButton(backpack);
    /** Button. */
    private JButton bSort = new JButton("Sort");
    
@@ -84,9 +92,8 @@ public class PokemonPanel extends JPanel {
       backpackTop.setBackground(cBlue);
       backpackBottom.setBackground(cRed);
       buttonPanel.setBackground(cBlue);
+      
 
-      
-      
       
       this.add("Center", deckPanel);
       //Adding card panels to the deck"
