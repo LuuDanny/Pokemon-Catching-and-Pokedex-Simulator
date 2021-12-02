@@ -16,6 +16,8 @@ public class PokemonPanel extends JPanel {
    private JLabel lPokedex = new JLabel("Pokedex");
    /** Label. */
    private JLabel lBackpack = new JLabel("Backpack");
+   /** Label. */
+   private JLabel lSort = new JLabel("Sort By:");
    
    /** Button. */
    private JButton bPokemon = new JButton("Make Pokemon");
@@ -23,7 +25,11 @@ public class PokemonPanel extends JPanel {
    private JButton bPokedex = new JButton("Pokedex");
    /** Button. */
    private JButton bBackpack = new JButton("Backpack");
-
+   /** Button. */
+   private JButton bSort = new JButton("Sort");
+   
+   /** Choise. */
+   private Choice sortChoise = new Choice();
 
    /** Top Panel: Holds Card-Panels. */
    private JPanel deckPanel = new JPanel();
@@ -53,41 +59,68 @@ public class PokemonPanel extends JPanel {
    /**Bottom Panel: Buttons for card navigation. */
    private JPanel buttonPanel = new JPanel();
 
-
+      /** Background Color .*/
+   private Color cBlue = new Color(142, 239, 255);
+   /** Background Color .*/
+   private Color cRed = new Color(255, 20, 0);
       
    /**
    * Constructor holds everything.
    */
    public PokemonPanel() { 
       this.setLayout(new BorderLayout());
+      this.setPreferredSize(new Dimension(700, 600));
       deckPanel.setLayout(new CardLayout());
+      cardPokemon.setLayout(new BorderLayout());
+      cardPokedex.setLayout(new BorderLayout());
+      cardBackpack.setLayout(new BorderLayout());
+      
+      
+      //Temporary so that we can see the borders of each panel
+      pokemonTop.setBackground(cBlue);
+      pokemonBottom.setBackground(cRed);
+      pokedexTop.setBackground(cBlue);
+      pokedexBottom.setBackground(cRed);
+      backpackTop.setBackground(cBlue);
+      backpackBottom.setBackground(cRed);
+      buttonPanel.setBackground(cBlue);
 
       
       
-
       
-      
-      
-      this.add("North", deckPanel);
+      this.add("Center", deckPanel);
       //Adding card panels to the deck"
       deckPanel.add(cardPokemon, "pokemon");
       deckPanel.add(cardPokedex, "pokedex");
       deckPanel.add(cardBackpack, "backpack");
       
-      cardPokemon.add(pokemonTop);
-      cardPokemon.add(pokemonBottom);
+      //Adding sub-panels to pokemon card
+      cardPokemon.add("North", pokemonTop);
+      cardPokemon.add("Center", pokemonBottom);
       
       pokemonTop.add(lPokemon);
       
-      cardPokedex.add(pokedexTop);
-      cardPokedex.add(pokedexBottom);
+      //Adding sub-panels to pokedex card
+      cardPokedex.add("North", pokedexTop);
+      cardPokedex.add("Center", pokedexBottom);
       
       pokedexTop.add(lPokedex);
       
-      cardBackpack.add(backpackTop);
-      cardBackpack.add(backpackBottom);
+      //Adding sub-panels to backpack card
+      cardBackpack.add("North", backpackTop);
+      cardBackpack.add("Center", backpackBottom);
       
+      //Adding stuff to top sub-panel of backpack card
       backpackTop.add(lBackpack);
+      backpackTop.add(lSort);
+      backpackTop.add(sortChoise);
+      backpackTop.add(bSort);
+      //Adding backpack sorting options
+      sortChoise.add("Recent");
+      sortChoise.add("Number");
+      sortChoise.add("Name");
+      sortChoise.add("HP");
+      sortChoise.add("CP");
       
       
       this.add("South", buttonPanel);
