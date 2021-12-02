@@ -17,7 +17,7 @@ public class PokemonPanel extends JPanel {
    /** Label. */
    private JLabel lBackpack = new JLabel("Backpack");
    /** Label. */
-   private JLabel lSort = new JLabel("Sort By:");
+   private JLabel lSort = new JLabel("Sort By:  ");
    
    /** Button. */
    private JButton bPokemon = new JButton("Make Pokemon");
@@ -74,7 +74,7 @@ public class PokemonPanel extends JPanel {
       cardPokemon.setLayout(new BorderLayout());
       cardPokedex.setLayout(new BorderLayout());
       cardBackpack.setLayout(new BorderLayout());
-      
+      backpackTop.setLayout(new BoxLayout(backpackTop, BoxLayout.LINE_AXIS));
       
       //Temporary so that we can see the borders of each panel
       pokemonTop.setBackground(cBlue);
@@ -111,10 +111,14 @@ public class PokemonPanel extends JPanel {
       cardBackpack.add("Center", backpackBottom);
       
       //Adding stuff to top sub-panel of backpack card
+      backpackTop.add(Box.createRigidArea(new Dimension(10,0)));
       backpackTop.add(lBackpack);
+      backpackTop.add(Box.createHorizontalGlue());
       backpackTop.add(lSort);
       backpackTop.add(sortChoise);
+      backpackTop.add(Box.createRigidArea(new Dimension(25,0)));
       backpackTop.add(bSort);
+      backpackTop.add(Box.createRigidArea(new Dimension(25,0)));
       //Adding backpack sorting options
       sortChoise.add("Recent");
       sortChoise.add("Number");
@@ -147,15 +151,15 @@ public class PokemonPanel extends JPanel {
          
          if (event.getSource() == bPokemon) {
             card.show(deckPanel, "pokemon");
-            //top.show(topDeckPanel, "1");
          }
          if (event.getSource() == bPokedex) {
             card.show(deckPanel, "pokedex");
-            //top.show(topDeckPanel, "2");
          }
          if (event.getSource() == bBackpack) {
             card.show(deckPanel, "backpack");
-            //top.show(topDeckPanel, "3");
+         }
+         if (event.getSource() == bSort) {
+         
          }
       }
    }
