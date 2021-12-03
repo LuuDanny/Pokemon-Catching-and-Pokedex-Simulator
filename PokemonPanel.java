@@ -18,12 +18,14 @@ public class PokemonPanel extends JPanel {
    ImageIcon pokedex = new ImageIcon("Images/Pokedex.png");
    /** Backpack image. */
    ImageIcon backpack = new ImageIcon("Images/Backpack.png");
-   /** Backpack image. */
+   /** Charizard image. */
    ImageIcon charizard = new ImageIcon("Images/Charizard.png");
    
    
-   /** Text area for new pokemon. */
-   private JTextArea textArea = new JTextArea(5, 50);
+   /** Text area. */
+   private JTextArea textArea = new JTextArea(5, 40);
+   /** Text area. */
+   private JTextArea textArea2 = new JTextArea(40, 20);
 
    
    JLabel picCharizard = new JLabel(charizard);
@@ -100,7 +102,7 @@ public class PokemonPanel extends JPanel {
    */
    public PokemonPanel() { 
       this.setLayout(new BorderLayout());
-      this.setPreferredSize(new Dimension(700, 600));
+      this.setPreferredSize(new Dimension(700, 612));
       deckPanel.setLayout(new CardLayout());
       
       //Pokemon Card-Panel and its sub-panels
@@ -148,20 +150,41 @@ public class PokemonPanel extends JPanel {
       pokemonBottom.add(pokemonContainer);
       
       pokemonContainer.setBorder(new CompoundBorder(margin, blackline));
-      pokemonContainer.setPreferredSize(new Dimension(600, 410));
+      pokemonContainer.setPreferredSize(new Dimension(600, 430));
+      
+      pokemonContainerBottom.setBorder(title);
       
       
-      picCharizard.setAlignmentX(picCharizard.CENTER_ALIGNMENT);
-      textArea.setAlignmentX(textArea.CENTER_ALIGNMENT);
+      //picCharizard.setAlignmentY(picCharizard.LEFT_ALIGNMENT);
       textArea.setMaximumSize(textArea.getPreferredSize());
-      textArea.setBorder(title);
-      
-      pokemonContainer.add(picCharizard);
-      pokemonContainer.add(Box.createRigidArea(new Dimension(0,65)));
-      pokemonContainer.add(textArea);
+      textArea.setBorder(blackline);
       textArea.setEditable(false);
-
+      textArea2.setMaximumSize(textArea2.getPreferredSize());
+      textArea2.setBorder(blackline);
+      textArea2.setEditable(false);
       
+      pokemonContainer.add(Box.createRigidArea(new Dimension(0,15)));
+      pokemonContainer.add(pokemonContainerTop);
+      pokemonContainer.add(Box.createRigidArea(new Dimension(0,15)));
+      pokemonContainer.add(pokemonContainerBottom);
+      pokemonContainer.add(Box.createRigidArea(new Dimension(0,15)));
+      
+      pokemonContainerTop.add(picCharizard);
+      pokemonContainerTop.add(textArea2);
+      
+      
+      
+      pokemonContainerBottom.add(Box.createRigidArea(new Dimension(10,100)));
+      pokemonContainerBottom.add(textArea);
+      pokemonContainerBottom.add(Box.createRigidArea(new Dimension(12,0)));
+      pokemonContainerBottom.add(pokemonContainerBottomButton);
+      pokemonContainerBottom.add(Box.createRigidArea(new Dimension(10,0)));
+      pokemonContainerBottomButton.add(bHunt);
+      pokemonContainerBottomButton.add(Box.createRigidArea(new Dimension(0,10)));
+      pokemonContainerBottomButton.add(bCatch);
+
+      bHunt.setMaximumSize(new Dimension(70, 35));
+      bCatch.setMaximumSize(new Dimension(70, 35));
       
       
       //========================== Pokedex Card-Panel ==========================
@@ -199,7 +222,9 @@ public class PokemonPanel extends JPanel {
       this.add("South", buttonPanel);
       //Adding buttons to button panel
       buttonPanel.add(bPokemon);
+      buttonPanel.add(Box.createRigidArea(new Dimension(20,140)));
       buttonPanel.add(bPokedex);
+      buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
       buttonPanel.add(bBackpack);
       
       bPokemon.addActionListener(new GUIListener()); 
