@@ -14,17 +14,32 @@ import java.util.Random;
 
 public class PokemonPanel extends JPanel {
    
-   
+   /** Empty image. */
+   ImageIcon empty = new ImageIcon("Images/Empty.png");
    /** Pokemon image. */
    ImageIcon pokemon = new ImageIcon("Images/Pokemon.png");
    /** Pokedex image. */
    ImageIcon pokedex = new ImageIcon("Images/Pokedex.png");
    /** Backpack image. */
    ImageIcon backpack = new ImageIcon("Images/Backpack.png");
+   /** Bulbasaur image. */
+   ImageIcon bulbasaur = new ImageIcon("Images/Bulbasaur.png");
+   /** Ivysaur image. */
+   ImageIcon ivysaur = new ImageIcon("Images/Ivysaur.png");
+   /** Venusaur image. */
+   ImageIcon venusaur = new ImageIcon("Images/Venusaur.png");
    /** Charmander image. */
    ImageIcon charmander = new ImageIcon("Images/Charmander.png");
+   /** Charmeleon image. */
+   ImageIcon charmeleon = new ImageIcon("Images/Charmeleon.png");
    /** Charizard image. */
    ImageIcon charizard = new ImageIcon("Images/Charizard.png");
+   /** Squirtle image. */
+   ImageIcon squirtle = new ImageIcon("Images/Squirtle.png");
+   /** Wartortle image. */
+   ImageIcon wartortle = new ImageIcon("Images/Wartortle.png");
+   /** Blastoise image. */
+   ImageIcon blastoise = new ImageIcon("Images/Blastoise.png");
    
    
    /** Text area. */
@@ -33,7 +48,7 @@ public class PokemonPanel extends JPanel {
    private JTextArea textArea2 = new JTextArea(40, 20);
 
    /** Label image. */
-   JLabel image = new JLabel(charmander);
+   JLabel image = new JLabel(empty);
    /** Label image. */
    //JLabel imgCharmander = new JLabel(charmander);
    
@@ -288,7 +303,47 @@ public class PokemonPanel extends JPanel {
          }
          if (event.getSource() == bHunt) {
             i = ranNum.nextInt(range) + 1;
-            image.setIcon(charizard);
+            switch(i) {
+               case 1:
+                  image.setIcon(bulbasaur);
+                  poke = new Bulbasaur();
+                  break;
+               case 2:
+                  image.setIcon(ivysaur);
+                  poke = new Ivysaur();
+                  break;
+               case 3:
+                  image.setIcon(venusaur);
+                  poke = new Venusaur();
+                  break;
+               case 4:
+                  image.setIcon(charmander);
+                  poke = new Charmander();
+                  break;
+               case 5:
+                  image.setIcon(charmeleon);
+                  poke = new Charmeleon();
+                  break;
+               case 6:
+                  image.setIcon(charizard);
+                  poke = new Charizard();
+                  break;
+               case 7:
+                  image.setIcon(squirtle);
+                  poke = new Squirtle();
+                  break;
+               case 8:
+                  image.setIcon(wartortle);
+                  poke = new Wartortle();
+                  break;
+               case 9:
+                  image.setIcon(blastoise);
+                  poke = new Blastoise();
+                  break; 
+               default:
+                  System.out.println("Error");
+                  break;
+            }
 
 
               
