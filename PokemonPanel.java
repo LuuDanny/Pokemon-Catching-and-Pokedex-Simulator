@@ -33,7 +33,7 @@ public class PokemonPanel extends JPanel {
    private JTextArea textArea2 = new JTextArea(40, 20);
 
    /** Label image. */
-   JLabel image = new JLabel("");
+   JLabel image = new JLabel(charmander);
    /** Label image. */
    //JLabel imgCharmander = new JLabel(charmander);
    
@@ -164,6 +164,7 @@ public class PokemonPanel extends JPanel {
       buttonContainer.setBorder(new CompoundBorder(margin2, blackline));
       
       
+      
       //Temporary so that we can see the borders of each panel
       pokedexTop.setBackground(cBlue);
       pokedexBottom.setBackground(cRed);
@@ -208,7 +209,9 @@ public class PokemonPanel extends JPanel {
       pokemonContainerBottomButton.add(bHunt);
       pokemonContainerBottomButton.add(Box.createRigidArea(new Dimension(0,10)));
       pokemonContainerBottomButton.add(bCatch);
-
+      
+      bHunt.addActionListener(new GUIListener());
+      bCatch.addActionListener(new GUIListener());
       
       //========================== Pokedex Card-Panel ==========================
       cardPokedex.add("North", pokedexTop);
@@ -284,7 +287,7 @@ public class PokemonPanel extends JPanel {
             card.show(deckPanel, "backpack");
          }
          if (event.getSource() == bHunt) {
-
+            i = ranNum.nextInt(range) + 1;
             image.setIcon(charizard);
 
 
