@@ -3,6 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.util.*;
+import java.util.Random;
+
+
 /**
 *Main Content Panel: Pokemon.
 *@author Danny Luu
@@ -18,6 +21,8 @@ public class PokemonPanel extends JPanel {
    ImageIcon pokedex = new ImageIcon("Images/Pokedex.png");
    /** Backpack image. */
    ImageIcon backpack = new ImageIcon("Images/Backpack.png");
+   /** Charmander image. */
+   ImageIcon charmander = new ImageIcon("Images/Charmander.png");
    /** Charizard image. */
    ImageIcon charizard = new ImageIcon("Images/Charizard.png");
    
@@ -27,8 +32,10 @@ public class PokemonPanel extends JPanel {
    /** Text area. */
    private JTextArea textArea2 = new JTextArea(40, 20);
 
-   
-   JLabel picCharizard = new JLabel(charizard);
+   /** Label image. */
+   JLabel image = new JLabel("");
+   /** Label image. */
+   //JLabel imgCharmander = new JLabel(charmander);
    
    /** Label. */
    private JLabel lPokemon = new JLabel("Pokemon");
@@ -91,53 +98,85 @@ public class PokemonPanel extends JPanel {
    
    /**Bottom Panel: Buttons for card navigation. */
    private JPanel buttonPanel = new JPanel();
+   /** Pokemon Sub Panel. */
+   private JPanel buttonContainer = new JPanel();
 
    /** Background Color .*/
    private Color cBlue = new Color(142, 239, 255);
    /** Background Color .*/
    private Color cRed = new Color(255, 20, 0);
+   
+   /** Border margin 1.*/
+   private Border margin1 = new MatteBorder(10,0,0,0, cBlue);;
+   /** Border margin 2.*/
+   private Border margin2 = new MatteBorder(0,0,20,0, cBlue);
+   /** Border Black line.*/
+   private Border blackline = BorderFactory.createLineBorder(Color.black, 2);
+   /** Border Titled border.*/
+   private TitledBorder title = BorderFactory.createTitledBorder(blackline, "Gotta catch 'em all!");
       
    /**
    * Constructor holds everything.
    */
    public PokemonPanel() { 
+      //Design of titled border
+      title.setTitleFont(new Font("Arial", Font.ITALIC, 14));
+      
+      //Design of text areas
+      textArea.setMaximumSize(textArea.getPreferredSize());
+      textArea.setBorder(blackline);
+      textArea.setEditable(false);
+      textArea2.setMaximumSize(textArea2.getPreferredSize());
+      textArea2.setBorder(blackline);
+      textArea2.setEditable(false);
+      
+      //Design of buttons
+      bHunt.setMaximumSize(new Dimension(70, 35));
+      bCatch.setMaximumSize(new Dimension(70, 35));
+      
+      //Design of Main Panel
       this.setLayout(new BorderLayout());
-      this.setPreferredSize(new Dimension(700, 612));
+      this.setPreferredSize(new Dimension(700, 670));
       deckPanel.setLayout(new CardLayout());
       
-      //Pokemon Card-Panel and its sub-panels
+      //Design for Pokemon Card-Panel and its sub-panels
       cardPokemon.setLayout(new BorderLayout());
+      pokemonTop.setBackground(cBlue);
+      pokemonBottom.setBackground(cBlue);
       pokemonContainer.setLayout(new BoxLayout(pokemonContainer, BoxLayout.Y_AXIS));
+      pokemonContainer.setPreferredSize(new Dimension(600, 440));
+      pokemonContainer.setBorder(new CompoundBorder(margin1, blackline));
       pokemonContainerTop.setLayout(new BoxLayout(pokemonContainerTop, BoxLayout.X_AXIS));
       pokemonContainerBottom.setLayout(new BoxLayout(pokemonContainerBottom, BoxLayout.X_AXIS));
+      pokemonContainerBottom.setBorder(title);
       pokemonContainerBottomButton.setLayout(new BoxLayout(pokemonContainerBottomButton, BoxLayout.Y_AXIS));
       
-      //Pokedex Card-Panel and its sub-panels
+      //Design for Pokedex Card-Panel and its sub-panels
       cardPokedex.setLayout(new BorderLayout());
       
-      //Backpack Card-Panel and its sub-panels
+      //Design for Backpack Card-Panel and its sub-panels
       cardBackpack.setLayout(new BorderLayout());
-      backpackTop.setLayout(new BoxLayout(backpackTop, BoxLayout.LINE_AXIS));
-      
-      Border margin = new MatteBorder(10,0,0,0, cBlue);
-      Border blackline = BorderFactory.createLineBorder(Color.black, 2);
-      TitledBorder title = BorderFactory.createTitledBorder(blackline, "Gotta catch 'em all!");
-      title.setTitleFont(new Font("Arial", Font.ITALIC, 14));
+      backpackTop.setLayout(new BoxLayout(backpackTop, BoxLayout.X_AXIS));
+
+      //Design for Button panel
+      buttonPanel.setBackground(cBlue);
+      buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.X_AXIS));
+      buttonContainer.setBorder(new CompoundBorder(margin2, blackline));
       
       
       //Temporary so that we can see the borders of each panel
-      pokemonTop.setBackground(cBlue);
-      pokemonBottom.setBackground(cBlue);
       pokedexTop.setBackground(cBlue);
       pokedexBottom.setBackground(cRed);
       backpackTop.setBackground(cBlue);
       backpackBottom.setBackground(cRed);
-      buttonPanel.setBackground(cBlue);
+ 
       
 
-      
+      //========================== Main Panel ==========================
       this.add("Center", deckPanel);
-      //Adding CARD-PANELS (pokemon, pokedex, & backpack) to the DECK"
+      this.add("South", buttonPanel);
+      
+      //========================== Deck Panel ==========================
       deckPanel.add(cardPokemon, "pokemon");
       deckPanel.add(cardPokedex, "pokedex");
       deckPanel.add(cardBackpack, "backpack");
@@ -149,43 +188,27 @@ public class PokemonPanel extends JPanel {
       pokemonTop.add(lPokemon);
       pokemonBottom.add(pokemonContainer);
       
-      pokemonContainer.setBorder(new CompoundBorder(margin, blackline));
-      pokemonContainer.setPreferredSize(new Dimension(600, 430));
-      
-      pokemonContainerBottom.setBorder(title);
-      
-      
-      //picCharizard.setAlignmentY(picCharizard.LEFT_ALIGNMENT);
-      textArea.setMaximumSize(textArea.getPreferredSize());
-      textArea.setBorder(blackline);
-      textArea.setEditable(false);
-      textArea2.setMaximumSize(textArea2.getPreferredSize());
-      textArea2.setBorder(blackline);
-      textArea2.setEditable(false);
-      
-      pokemonContainer.add(Box.createRigidArea(new Dimension(0,15)));
+      pokemonContainer.add(Box.createRigidArea(new Dimension(0,20)));
       pokemonContainer.add(pokemonContainerTop);
       pokemonContainer.add(Box.createRigidArea(new Dimension(0,15)));
       pokemonContainer.add(pokemonContainerBottom);
-      pokemonContainer.add(Box.createRigidArea(new Dimension(0,15)));
+      pokemonContainer.add(Box.createRigidArea(new Dimension(0,20)));
       
-      pokemonContainerTop.add(picCharizard);
+      pokemonContainerTop.add(Box.createRigidArea(new Dimension(20,0)));
+      pokemonContainerTop.add(image);
+      pokemonContainerTop.add(Box.createRigidArea(new Dimension(60,0)));
       pokemonContainerTop.add(textArea2);
-      
-      
       
       pokemonContainerBottom.add(Box.createRigidArea(new Dimension(10,100)));
       pokemonContainerBottom.add(textArea);
       pokemonContainerBottom.add(Box.createRigidArea(new Dimension(12,0)));
       pokemonContainerBottom.add(pokemonContainerBottomButton);
       pokemonContainerBottom.add(Box.createRigidArea(new Dimension(10,0)));
+      
       pokemonContainerBottomButton.add(bHunt);
       pokemonContainerBottomButton.add(Box.createRigidArea(new Dimension(0,10)));
       pokemonContainerBottomButton.add(bCatch);
 
-      bHunt.setMaximumSize(new Dimension(70, 35));
-      bCatch.setMaximumSize(new Dimension(70, 35));
-      
       
       //========================== Pokedex Card-Panel ==========================
       cardPokedex.add("North", pokedexTop);
@@ -219,13 +242,17 @@ public class PokemonPanel extends JPanel {
       sortChoise.add("CP");
       
       
-      this.add("South", buttonPanel);
-      //Adding buttons to button panel
-      buttonPanel.add(bPokemon);
-      buttonPanel.add(Box.createRigidArea(new Dimension(20,140)));
-      buttonPanel.add(bPokedex);
-      buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
-      buttonPanel.add(bBackpack);
+      
+      //========================== Button Panel ==========================
+      buttonPanel.add(buttonContainer);
+      
+      buttonContainer.add(Box.createRigidArea(new Dimension(36,140)));
+      buttonContainer.add(bPokemon);
+      buttonContainer.add(Box.createRigidArea(new Dimension(36,0)));
+      buttonContainer.add(bPokedex);
+      buttonContainer.add(Box.createRigidArea(new Dimension(36,0)));
+      buttonContainer.add(bBackpack);
+      buttonContainer.add(Box.createRigidArea(new Dimension(37,0)));
       
       bPokemon.addActionListener(new GUIListener()); 
       bPokedex.addActionListener(new GUIListener()); 
@@ -242,6 +269,10 @@ public class PokemonPanel extends JPanel {
       */
       public void actionPerformed(ActionEvent event) {
          CardLayout card = (CardLayout)(deckPanel.getLayout());
+         Random ranNum = new Random();
+         int range = 9;
+         int i = 0;
+         Pokemon poke;
          
          if (event.getSource() == bPokemon) {
             card.show(deckPanel, "pokemon");
@@ -252,10 +283,15 @@ public class PokemonPanel extends JPanel {
          if (event.getSource() == bBackpack) {
             card.show(deckPanel, "backpack");
          }
-         if (event.getSource() == bSort) {
-         
+         if (event.getSource() == bHunt) {
+
+            image.setIcon(charizard);
+
+
+              
          }
       }
    }
+   
    
 } // Closes class
