@@ -287,6 +287,20 @@ public abstract class Pokemon implements Comparable<Pokemon> {
    * Gets the primary type.
    * @return String representing this species' primary type.
    */   
+   public String getType() {
+      String s = "";
+      s = this.type1;
+      if (this.type2.length() > 0) {
+          s = s + " | " + this.type2;
+      }
+      
+      return s;
+   }
+   
+   /**
+   * Gets the primary type.
+   * @return String representing this species' primary type.
+   */   
    public String getType1() {
       return type1;
    }

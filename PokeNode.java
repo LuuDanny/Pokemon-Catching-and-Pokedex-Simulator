@@ -9,6 +9,8 @@ public class PokeNode {
    private Pokemon poke;
    /** Count of duplicate pokemon. */
    private int catchCount;
+   /** The number of times the pokemon has been seen. */
+   private int seenCount;
    /** Link to left child Node. */
    private PokeNode leftChild;
    /** Link to right child Node. */
@@ -21,9 +23,10 @@ public class PokeNode {
 	* @param lChild The address of the left child
 	* @param rChild The address of the right child
 	*/
-   public PokeNode(Pokemon p, int count, PokeNode lChild, PokeNode rChild) {
+   public PokeNode(Pokemon p, int spotted, int caught, PokeNode lChild, PokeNode rChild) {
       this.poke = p;
-      this.catchCount = count;
+      this.seenCount = spotted;
+      this.catchCount = caught;
       this.leftChild = lChild;
       this.rightChild = rChild;
    
@@ -44,6 +47,14 @@ public class PokeNode {
    */
    public int getKey() {
       return this.poke.getNumber();
+   }
+   
+   /**
+   * Gets the seen count of a specific pokemon species.
+   * @return int seenCount catch count of a pokemon
+   */
+   public int getSeen() {
+      return this.seenCount;
    }
    
    /**
@@ -84,6 +95,13 @@ public class PokeNode {
    /**
    * Increment the catchCount in a given node.
    */
+   public void increaseSeen() {
+      seenCount++;
+   }
+   
+   /**
+   * Increment the catchCount in a given node.
+   */
    public void increaseCount() {
       catchCount++;
    }
@@ -93,7 +111,7 @@ public class PokeNode {
    * @exception NodeException if catchCount becomes < 1
    */
    public void decreaseCount()throws NodeException {
-      if (catchCount == 1) {
+      if (catchCount <= 1) {
          throw new NodeException("Error: Catch count cannot be decreased past 1!");
       } else {
          catchCount--;

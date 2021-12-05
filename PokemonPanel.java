@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.util.*;
 import java.util.Random;
-
+import javax.swing.JTextPane.*;
 
 /**
 *Main Content Panel: Pokemon.
@@ -46,11 +46,19 @@ public class PokemonPanel extends JPanel {
    private JTextArea textArea = new JTextArea(5, 40);
    /** Text area. */
    private JTextArea textArea2 = new JTextArea(40, 20);
+   /** Text pane. */
+   private JTextArea textPokedex = new JTextArea("");
+   
+   /** Make textPokedex scrollable. */ 
+   private JScrollPane scroll = new JScrollPane(textPokedex, 
+       JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+
 
    /** Label image. */
    JLabel image = new JLabel(empty);
-   /** Label image. */
-   //JLabel imgCharmander = new JLabel(charmander);
+
    
    /** Label. */
    private JLabel lPokemon = new JLabel("Pokemon");
@@ -102,6 +110,8 @@ public class PokemonPanel extends JPanel {
    private JPanel pokedexTop = new JPanel();
    /** Pokedex Sub Panel. */
    private JPanel pokedexBottom = new JPanel();
+   /** Pokemon Sub Panel. */
+   private JPanel pokedexContainer = new JPanel();
    
    /** Card-Panel: Backpack. */
    private JPanel cardBackpack = new JPanel();
@@ -122,13 +132,20 @@ public class PokemonPanel extends JPanel {
    private Color cRed = new Color(255, 20, 0);
    
    /** Border margin 1.*/
-   private Border margin1 = new MatteBorder(10,0,0,0, cBlue);;
+   private Border margin1 = new MatteBorder(10,0,0,0, cBlue);
    /** Border margin 2.*/
    private Border margin2 = new MatteBorder(0,0,20,0, cBlue);
    /** Border Black line.*/
-   private Border blackline = BorderFactory.createLineBorder(Color.black, 2);
+   private Border blackline = BorderFactory.createLineBorder(Color.black, 2, true);
    /** Border Titled border.*/
    private TitledBorder title = BorderFactory.createTitledBorder(blackline, "Gotta catch 'em all!");
+   
+   /** Set new font face and size.*/
+   private Font f = new Font("Arial", Font.PLAIN, 15);
+   
+   //============= Instance Variables ==================
+   /** pokedex BST. */
+   private PokeTree pokedexBST = new PokeTree();
       
    /**
    * Constructor holds everything.
@@ -141,9 +158,18 @@ public class PokemonPanel extends JPanel {
       textArea.setMaximumSize(textArea.getPreferredSize());
       textArea.setBorder(blackline);
       textArea.setEditable(false);
+      textArea.setFont(f);
       textArea2.setMaximumSize(textArea2.getPreferredSize());
       textArea2.setBorder(blackline);
       textArea2.setEditable(false);
+      textArea2.setFont(f);
+      textArea2.setMargin(new Insets(15, 15, 15, 15));
+      scroll.setBorder(blackline);
+      scroll.setMaximumSize(new Dimension(400, 380));
+      textPokedex.setBorder(null);
+      textPokedex.setEditable(false);
+      textPokedex.setFont(f);
+
       
       //Design of buttons
       bHunt.setMaximumSize(new Dimension(70, 35));
@@ -168,6 +194,9 @@ public class PokemonPanel extends JPanel {
       
       //Design for Pokedex Card-Panel and its sub-panels
       cardPokedex.setLayout(new BorderLayout());
+      pokedexContainer.setLayout(new BoxLayout(pokedexContainer, BoxLayout.X_AXIS));
+      pokedexContainer.setPreferredSize(new Dimension(600, 440));
+      pokedexContainer.setBorder(new CompoundBorder(margin1, blackline));
       
       //Design for Backpack Card-Panel and its sub-panels
       cardBackpack.setLayout(new BorderLayout());
@@ -182,7 +211,7 @@ public class PokemonPanel extends JPanel {
       
       //Temporary so that we can see the borders of each panel
       pokedexTop.setBackground(cBlue);
-      pokedexBottom.setBackground(cRed);
+      pokedexBottom.setBackground(cBlue);
       backpackTop.setBackground(cBlue);
       backpackBottom.setBackground(cRed);
  
@@ -233,11 +262,11 @@ public class PokemonPanel extends JPanel {
       cardPokedex.add("Center", pokedexBottom);
       
       pokedexTop.add(lPokedex);
-      
-      
-      
-      
-      
+      pokedexBottom.add(pokedexContainer);
+
+      pokedexContainer.add(Box.createRigidArea(new Dimension(97,0)));
+      pokedexContainer.add(scroll);
+
       
       //========================== Backpack Card-Panel ==========================
       cardBackpack.add("North", backpackTop);
@@ -297,48 +326,60 @@ public class PokemonPanel extends JPanel {
          }
          if (event.getSource() == bPokedex) {
             card.show(deckPanel, "pokedex");
+
+            textPokedex.setText(pokedexBST.printPokeTree());
+
          }
          if (event.getSource() == bBackpack) {
             card.show(deckPanel, "backpack");
          }
          if (event.getSource() == bHunt) {
             i = ranNum.nextInt(range) + 1;
-            switch(i) {
+            switch(i) { //Randomly selects which pokemon will appear
                case 1:
                   image.setIcon(bulbasaur);
                   poke = new Bulbasaur();
+                  hunt(poke);
                   break;
                case 2:
                   image.setIcon(ivysaur);
                   poke = new Ivysaur();
+                  hunt(poke);
                   break;
                case 3:
                   image.setIcon(venusaur);
                   poke = new Venusaur();
+                  hunt(poke);
                   break;
                case 4:
                   image.setIcon(charmander);
                   poke = new Charmander();
+                  hunt(poke);
                   break;
                case 5:
                   image.setIcon(charmeleon);
                   poke = new Charmeleon();
+                  hunt(poke);
                   break;
                case 6:
                   image.setIcon(charizard);
                   poke = new Charizard();
+                  hunt(poke);
                   break;
                case 7:
                   image.setIcon(squirtle);
                   poke = new Squirtle();
+                  hunt(poke);
                   break;
                case 8:
                   image.setIcon(wartortle);
                   poke = new Wartortle();
+                  hunt(poke);
                   break;
                case 9:
                   image.setIcon(blastoise);
                   poke = new Blastoise();
+                  hunt(poke);
                   break; 
                default:
                   System.out.println("Error");
@@ -351,5 +392,28 @@ public class PokemonPanel extends JPanel {
       }
    }
    
+   //============= hunt method ==================
+   /**
+   * Adds the spotted pokemon to the pokedex, increasing its seen count.
+   * Sets the textArea's text depending on the pokemon
+   * @return a Pokemon object
+   */
+   public void hunt(Pokemon poke) {
+      pokedexBST.seen(poke);
+      textArea.setText("  A wild " + poke.getSpecies() + " has appeared!" 
+            + "\n  --> Press the \"Hunt\" button to search for a new Pokemon."
+            + "\n  --> Press the \"Catch\" button to attempt to capture the Pokemon.");
+      textArea2.setText("   Number: " + poke.getNumber() 
+            + "\n\n   Species: " + poke.getSpecies() 
+            + "\n\n   Type: " + poke.getType()
+            + "\n\n   Height: " + poke.getHeight() 
+            + "\n\n   Weight: " + poke.getWeight()
+            + "\n\n   HP: " + poke.getHP() 
+            + "\n\n   CP: " + poke.getCP());
+      
+   }
+
+   
    
 } // Closes class
+
