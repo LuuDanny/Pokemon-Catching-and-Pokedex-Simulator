@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 /**
 *FrameGuiMain:Pokemon.
-*@author Danny Luu
+*@author Danny L. and Jerome W.
 *@since 04/20/21
 */
 

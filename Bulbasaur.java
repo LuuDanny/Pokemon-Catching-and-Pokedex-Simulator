@@ -30,7 +30,7 @@ public class Bulbasaur extends Pokemon implements GrassType, PoisonType {
    * because of dependence on type interface
    */
    public Bulbasaur() {
-      super("Bulbasaur", "Bulbasaur", 1, GRASS_COLOR, 0.71, 6.9, 
+      super("Bulbasaur", "Bulbasaur", 1, GRASS_COLOR, 0.7, 6.9, 
         GRASS_TYPE, POISON_TYPE, BASE_ATTACK_POWER, 
         BASE_DEFENSE_POWER, BASE_STAMINA_POWER);   
       //pick Attacks after construct
@@ -45,7 +45,7 @@ public class Bulbasaur extends Pokemon implements GrassType, PoisonType {
    * @param name The user-defined name.
    */
    public Bulbasaur(String name) {
-      super("Bulbasaur", name, 1, GRASS_COLOR, 0.71, 6.9, 
+      super("Bulbasaur", name, 1, GRASS_COLOR, 0.7, 6.9, 
         GRASS_TYPE, POISON_TYPE, BASE_ATTACK_POWER, 
         BASE_DEFENSE_POWER, BASE_STAMINA_POWER);
       //pick Attacks

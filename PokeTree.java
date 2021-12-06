@@ -1,4 +1,3 @@
-import java.util.HashMap;
 /**
 * Class for a Binary Search Tree.
 * @author Danny Luu
@@ -278,6 +277,7 @@ public class PokeTree {
    //============= Print Method =================
    /**
    * Wrapper method that calls recursive inorder Print method. 
+   * @return String the string representation of the tree
    */
    public String printPokeTree() {
       s = ""; //Resets the string so that it doesn't append itself
@@ -288,27 +288,21 @@ public class PokeTree {
    /**
    * Inorder Print method.
    * @param node The root of the tree/subtree 
+   * @return String the string representation of the tree
    */
    private String printPokeTree(PokeNode node) {
       
       if (node != null) {
          printPokeTree(node.getLChild());
-         s = s + "   Number: " + node.getPokemon().getNumber() 
+         s = s + "\n   Number: " + node.getPokemon().getNumber() 
                + "\n   Species: " + node.getPokemon().getSpecies() 
                + "\n   Type: " + node.getPokemon().getType()
-               + "\n   Height: " + node.getPokemon().getHeight() + "     Weight: " + node.getPokemon().getWeight()
-               + "\n   Found: " + node.getSeen() + "        Caught: " + node.getCount() + "\n\n";
+               + "\n   Height: " + node.getPokemon().getHeight() 
+               + "     Weight: " + node.getPokemon().getWeight()
+               + "\n   Found: " + node.getSeen() 
+               + "        Caught: " + node.getCount() + "\n";
          printPokeTree(node.getRChild());
       }
       return s;
-   } //Coses Print method
-   
-   
-   
-
-   
-   
-   
-}
-
-//System.out.println("" + node.getPokemon().toString() + "\nCount: " + node.getCount() + "\nSeen: " + node.getSeen());
+   } //Coses Print method  
+} //Closes Class
