@@ -22,11 +22,13 @@ public class PokemonPanel extends JPanel {
    /** pokedex BST. */
    private PokeTree pokedexBST = new PokeTree();
    /** Pokemon object. */
-   private Pokemon poke = null;
+   private Pokemon poke = new Bulbasaur();
    /** int variable. */
    private int i = 0;
    /** boolean variable. */
    private boolean foundPokemon = false;
+   /** boolean variable. */
+   private boolean namePokemon = false;
    
    /** Empty image. */
    private ImageIcon empty = new ImageIcon("Images/Empty.png");
@@ -56,7 +58,7 @@ public class PokemonPanel extends JPanel {
    private ImageIcon blastoise = new ImageIcon("Images/Blastoise.png");
    
    /** Text field. */
-   private JTextField namingField = new JTextField(40);
+   private JTextField namingField = new JTextField("   Pokemon Name", 12);
    /** Text area. */
    private JTextArea textArea = new JTextArea(5, 40);
    /** Text area. */
@@ -94,6 +96,8 @@ public class PokemonPanel extends JPanel {
    private JButton bHunt = new JButton("Hunt");
    /** Button. */
    private JButton bCatch = new JButton("Catch");
+   /** Button. */
+   private JButton bName = new JButton("Name");
    
    /** Choise. */
    private Choice sortChoise = new Choice();
@@ -111,6 +115,8 @@ public class PokemonPanel extends JPanel {
    private JPanel pokemonContainer = new JPanel();
    /** Pokemon Sub Panel. */
    private JPanel pokemonContainerTop = new JPanel();
+   /** Pokemon Sub Panel. */
+   private JPanel pokemonContainerMiddle = new JPanel();
    /** Pokemon Sub Panel. */
    private JPanel pokemonContainerBottom = new JPanel();
    /** Pokemon Sub Panel. */
@@ -172,18 +178,23 @@ public class PokemonPanel extends JPanel {
       textArea2.setFont(f);
       textArea2.setMargin(new Insets(15, 15, 15, 15));
       scroll.setBorder(blackline);
-      scroll.setMaximumSize(new Dimension(400, 380));
+      scroll.setMaximumSize(new Dimension(400, 410));
       textPokedex.setBorder(null);
       textPokedex.setEditable(false);
       textPokedex.setFont(f);
+      namingField.setMaximumSize(namingField.getPreferredSize());
+      namingField.setBorder(blackline);
+      namingField.setFont(f);
+      namingField.setForeground(new Color(150, 150, 150)); 
       
       //Design of buttons
       bHunt.setMaximumSize(new Dimension(70, 35));
       bCatch.setMaximumSize(new Dimension(70, 35));
+      bName.setMaximumSize(new Dimension(70, 35));
       
       //Design of Main Panel
       this.setLayout(new BorderLayout());
-      this.setPreferredSize(new Dimension(700, 670));
+      this.setPreferredSize(new Dimension(700, 730));
       deckPanel.setLayout(new CardLayout());
       
       //Design for Pokemon Card-Panel and its sub-panels
@@ -191,9 +202,10 @@ public class PokemonPanel extends JPanel {
       pokemonTop.setBackground(cBlue);
       pokemonBottom.setBackground(cBlue);
       pokemonContainer.setLayout(new BoxLayout(pokemonContainer, BoxLayout.Y_AXIS));
-      pokemonContainer.setPreferredSize(new Dimension(600, 440));
+      pokemonContainer.setPreferredSize(new Dimension(600, 500));
       pokemonContainer.setBorder(new CompoundBorder(margin1, blackline));
       pokemonContainerTop.setLayout(new BoxLayout(pokemonContainerTop, BoxLayout.X_AXIS));
+      pokemonContainerMiddle.setLayout(new BoxLayout(pokemonContainerMiddle, BoxLayout.X_AXIS));
       pokemonContainerBottom.setLayout(new BoxLayout(pokemonContainerBottom, BoxLayout.X_AXIS));
       pokemonContainerBottom.setBorder(title);
       pokemonContainerButton.setLayout(new BoxLayout(pokemonContainerButton, BoxLayout.Y_AXIS));
@@ -203,7 +215,7 @@ public class PokemonPanel extends JPanel {
       pokedexTop.setBackground(cBlue);
       pokedexBottom.setBackground(cBlue);
       pokedexContainer.setLayout(new BoxLayout(pokedexContainer, BoxLayout.X_AXIS));
-      pokedexContainer.setPreferredSize(new Dimension(600, 440));
+      pokedexContainer.setPreferredSize(new Dimension(600, 500));
       pokedexContainer.setBorder(new CompoundBorder(margin1, blackline));
       
       //Design for Backpack Card-Panel and its sub-panels
@@ -237,7 +249,9 @@ public class PokemonPanel extends JPanel {
       
       pokemonContainer.add(Box.createRigidArea(new Dimension(0, 20)));
       pokemonContainer.add(pokemonContainerTop);
-      pokemonContainer.add(Box.createRigidArea(new Dimension(0, 15)));
+      pokemonContainer.add(Box.createRigidArea(new Dimension(0, 5)));
+      pokemonContainer.add(pokemonContainerMiddle);
+      pokemonContainer.add(Box.createRigidArea(new Dimension(0, 5)));
       pokemonContainer.add(pokemonContainerBottom);
       pokemonContainer.add(Box.createRigidArea(new Dimension(0, 20)));
       
@@ -245,6 +259,11 @@ public class PokemonPanel extends JPanel {
       pokemonContainerTop.add(image);
       pokemonContainerTop.add(Box.createRigidArea(new Dimension(60, 0)));
       pokemonContainerTop.add(textArea2);
+      
+      pokemonContainerMiddle.add(Box.createRigidArea(new Dimension(330, 40)));
+      pokemonContainerMiddle.add(namingField);
+      pokemonContainerMiddle.add(Box.createRigidArea(new Dimension(14, 0)));
+      pokemonContainerMiddle.add(bName);
       
       pokemonContainerBottom.add(Box.createRigidArea(new Dimension(10, 100)));
       pokemonContainerBottom.add(textArea);
@@ -256,6 +275,8 @@ public class PokemonPanel extends JPanel {
       pokemonContainerButton.add(Box.createRigidArea(new Dimension(0, 10)));
       pokemonContainerButton.add(bCatch);
       
+      namingField.addFocusListener(new GUIFocusListener());
+      bName.addActionListener(new GUIListener());
       bHunt.addActionListener(new GUIListener());
       bCatch.addActionListener(new GUIListener());
       
@@ -307,6 +328,33 @@ public class PokemonPanel extends JPanel {
    }
    
    /**
+   * private class for FocusListener.
+   */
+   private class GUIFocusListener implements FocusListener {
+      /**
+      * Focus gained.
+      * @param event Field gains focus
+      */
+      public void focusGained(FocusEvent e) {  
+        if (namingField.getText().equals("   Pokemon Name"))
+           namingField.setText("");  
+           namingField.setForeground(new Color(50, 50, 50));
+        }  
+
+      /**
+      * Focus lost.
+      * @param event Field gains focus
+      */
+      public void focusLost(FocusEvent e) { 
+         if (namingField.getText().isEmpty()) {  
+            namingField.setText("   Pokemon Name");  
+            namingField.setForeground(new Color(150, 150, 150));  
+         }  
+      }
+   }
+   
+   
+   /**
    * private class for ActionListener.
    */
    private class GUIListener implements ActionListener {
@@ -316,6 +364,7 @@ public class PokemonPanel extends JPanel {
       public void actionPerformed(ActionEvent event) {
          CardLayout card = (CardLayout) (deckPanel.getLayout());
          Random ranNum = new Random();
+         String tempName = new String("");
 
          //Changes the top-panel(card) to the pokemon capture panel
          if (event.getSource() == bPokemon) {
@@ -388,19 +437,49 @@ public class PokemonPanel extends JPanel {
          //Attemps to capture the pokemon
          if (event.getSource() == bCatch) {
             i = ranNum.nextInt(COINFLIP);
-            if (!foundPokemon) {
+            if (!foundPokemon) {// There is no pokemon
                textArea.setText("  There is no Pokemon to catch. Go hunting!"
-                     + "\n\n  --> Press the \"Hunt\" button to search for a Pokemon.");
-            } else if (true) {
+                     + "\n  --> Press \"Hunt\" to search for a Pokemon.");
+            } else if (i == 0) {// The pokemon escapes
                textArea.setText("  " + poke.getSpecies() + " has escaped!" 
-                     + "\n\n  --> Press the \"Hunt\" button to search for a new Pokemon.");
+                     + "\n  --> Press \"Hunt\" to search for a new Pokemon.");
                //Resests the fields
                image.setIcon(empty);
                textArea2.setText(null);
                foundPokemon = false;
-            } else {
-            
+            } else if (i == 1) { // The pokemon is captured
+               pokedexBST.add(poke);
+               textArea.setText("  Congragulations, you caught " + poke.getSpecies() + "!" 
+                     + "\n  --> Press \"Hunt\" to search for a new Pokemon."
+                     + "\n  --> If you would like to name your pokemon, then enter the"
+                     + "\n      name into the \"Pokemon Name\" field and press \"Name\"");
+               
+               //Jerome this is where you add the pokemon to the backpack (stack, priority queue, linked list ...)
+               
+               //Resests the fields
+               image.setIcon(empty);
+               textArea2.setText(null);
+               foundPokemon = false;
+               namePokemon = true;
             }
+          }
+          if (event.getSource() == bName) {
+             if (!namePokemon) {// There is no pokemon
+               textArea.setText("  There is no Pokemon to name. Go hunting!"
+                     + "\n  --> Press \"Hunt\" to search for a Pokemon.");
+             } else if (namingField.getText().equals("   Pokemon Name")) {
+               textArea.setText("  No name has been chosen. Setting pokemon name to species."
+                     + "\n  --> Press \"Hunt\" to search for a Pokemon.");
+             } else {
+               textArea.setText("  Congragulations, the new name has been set!" 
+                     + "\n  --> Press \"Hunt\" to search for a new Pokemon.");
+                     
+               //Jerome this is where you set the pokemon name in the backpack
+               //Poke.setName(namingField.getText());
+               
+             }
+             namePokemon = false;
+           
          }
       } //Closes Action performed
    } //Closes Gui listener
@@ -414,8 +493,8 @@ public class PokemonPanel extends JPanel {
    public void hunt(Pokemon p) {
       pokedexBST.seen(p);
       textArea.setText("  A wild " + p.getSpecies() + " has appeared!" 
-            + "\n\n  --> Press the \"Hunt\" button to search for a new Pokemon."
-            + "\n  --> Press the \"Catch\" button to attempt to capture the Pokemon.");
+            + "\n  --> Press \"Hunt\" to search for a new Pokemon."
+            + "\n  --> Press \"Catch\" to attempt to capture the Pokemon.");
       textArea2.setText("   Number: " + p.getNumber() 
             + "\n\n   Species: " + p.getSpecies() 
             + "\n\n   Type: " + p.getType()
