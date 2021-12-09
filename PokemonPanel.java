@@ -226,7 +226,7 @@ public class PokemonPanel extends JPanel {
       bSort.setMaximumSize(new Dimension(70, 35));
       
       //Design of Choise
-      sortChoice.setMaximumSize(new Dimension(120, 35));
+      sortChoice.setMaximumSize(new Dimension(119, 35));
       
       //Design of Main Panel
       this.setLayout(new BorderLayout());
@@ -337,9 +337,9 @@ public class PokemonPanel extends JPanel {
       backpackTop.add(lBackpack);
       backpackBottom.add(backpackContainer);
       
-      backpackContainer.add(Box.createRigidArea(new Dimension(0, 20)));
+      backpackContainer.add(Box.createRigidArea(new Dimension(0, 28)));
       backpackContainer.add(backpackContainerTop);
-      backpackContainer.add(Box.createRigidArea(new Dimension(0, 20)));
+      backpackContainer.add(Box.createRigidArea(new Dimension(0, 12)));
       backpackContainer.add(backpackContainerBottom);
       backpackContainer.add(Box.createRigidArea(new Dimension(0, 20)));
       
