@@ -14,7 +14,7 @@ public class PokemonPanel extends JPanel {
    
    //============= Constant Variables ==================
    /** Range for the random pokemon generation. */
-   private static final int RANGE = 9;
+   private static final int RANGE = 13;
    /** Range for the random coin flip of catching the pokemon. */
    private static final int COINFLIP = 2;
    
@@ -62,6 +62,14 @@ public class PokemonPanel extends JPanel {
    private ImageIcon wartortle = new ImageIcon("Images/Wartortle.png");
    /** Blastoise image. */
    private ImageIcon blastoise = new ImageIcon("Images/Blastoise.png");
+   /** Eevee image. */
+   private ImageIcon eevee = new ImageIcon("Images/Eevee.png");
+   /** Vaporeon image. */
+   private ImageIcon vaporeon = new ImageIcon("Images/Vaporeon.png");
+   /** Jolteon image. */
+   private ImageIcon jolteon = new ImageIcon("Images/Jolteon.png");
+   /** Flareon image. */
+   private ImageIcon flareon = new ImageIcon("Images/Flareon.png");
    
    /** Text field. */
    private JTextField namingField = new JTextField(placeHolder, 12);
@@ -172,8 +180,10 @@ public class PokemonPanel extends JPanel {
    /** Border Titled border.*/
    private TitledBorder title = BorderFactory.createTitledBorder(blackline, "Gotta catch 'em all!");
    
-   /** Set new font face and size.*/
-   private Font f = new Font("Arial", Font.PLAIN, 15);
+   /** Font: General text.*/
+   private Font textF = new Font("Arial", Font.PLAIN, 15);
+   /** Font: Header text.*/
+   private Font headerF = new Font("Cambrian", Font.BOLD, 20);
   
    /**
    * Constructor holds everything.
@@ -186,25 +196,28 @@ public class PokemonPanel extends JPanel {
       textArea.setMaximumSize(textArea.getPreferredSize());
       textArea.setBorder(blackline);
       textArea.setEditable(false);
-      textArea.setFont(f);
+      textArea.setFont(textF);
       textArea2.setMaximumSize(textArea2.getPreferredSize());
       textArea2.setBorder(blackline);
       textArea2.setEditable(false);
-      textArea2.setFont(f);
+      textArea2.setFont(textF);
       scroll.setBorder(blackline);
       scroll.setMaximumSize(new Dimension(407, 431));
       textPokedex.setBorder(null);
       textPokedex.setEditable(false);
-      textPokedex.setFont(f);
+      textPokedex.setFont(textF);
       scrollBag.setBorder(blackline);
       scrollBag.setMaximumSize(new Dimension(400, 410));
       textBackpack.setBorder(null);
       textBackpack.setEditable(false);
-      textBackpack.setFont(f);
+      textBackpack.setFont(textF);
       namingField.setMaximumSize(namingField.getPreferredSize());
       namingField.setBorder(blackline);
-      namingField.setFont(f);
+      namingField.setFont(textF);
       namingField.setForeground(new Color(150, 150, 150)); 
+      lPokemon.setFont(headerF);
+      lPokedex.setFont(headerF);
+      lBackpack.setFont(headerF);
       
       //Design of Buttons
       bHunt.setMaximumSize(new Dimension(70, 35));
@@ -217,7 +230,7 @@ public class PokemonPanel extends JPanel {
       
       //Design of Main Panel
       this.setLayout(new BorderLayout());
-      this.setPreferredSize(new Dimension(700, 730));
+      this.setPreferredSize(new Dimension(700, 740));
       deckPanel.setLayout(new CardLayout());
       
       //Design for Pokemon Card-Panel and its sub-panels
@@ -499,8 +512,28 @@ public class PokemonPanel extends JPanel {
                   poke = new Blastoise();
                   hunt(poke);
                   break; 
+               case 10:
+                  image.setIcon(eevee);
+                  poke = new Eevee();
+                  hunt(poke);
+                  break;
+               case 11:
+                  image.setIcon(vaporeon);
+                  poke = new Vaporeon();
+                  hunt(poke);
+                  break;   
+               case 12:
+                  image.setIcon(jolteon);
+                  poke = new Jolteon();
+                  hunt(poke);
+                  break;
+               case 13:
+                  image.setIcon(flareon);
+                  poke = new Flareon();
+                  hunt(poke);
+                  break;
                default:
-                  System.out.println("Error");
+                  System.out.println("Ops");
                   break;
             }
          }
@@ -549,8 +582,8 @@ public class PokemonPanel extends JPanel {
             } // There is pokemon, but no name
             else if (namingField.getText().equals(placeHolder)) { 
                textArea.setText("  No name chosen. " 
-                     + "\n  " + poke.getSpecies() + "'s name has been set to " + poke.getSpecies() + "."
-                     + "\n  --> Press \"Hunt\" to search for a Pokemon.");
+                     + "\n  " + poke.getSpecies() + "'s name has been set to " + poke.getSpecies()
+                     + ".\n  --> Press \"Hunt\" to search for a Pokemon.");
             } // There is pokemon and a name has been chosen
             else { 
                textArea.setText("  Congragulations! " + poke.getSpecies() 
