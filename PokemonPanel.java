@@ -477,8 +477,8 @@ public class PokemonPanel extends JPanel {
                      + "\n  --> Press \"Hunt\" to search for a Pokemon.");
             } // There is pokemon, but no name
             else if (namingField.getText().equals(placeHolder)) { 
-               textArea.setText("  No name chosen. " + poke.getSpecies() 
-                     + "'s name has been set to " + poke.getSpecies() + "."
+               textArea.setText("  No name chosen. " 
+                     + "\n  " + poke.getSpecies() + "'s name has been set to " + poke.getSpecies() + "."
                      + "\n  --> Press \"Hunt\" to search for a Pokemon.");
             } // There is pokemon and a name has been chosen
             else { 
