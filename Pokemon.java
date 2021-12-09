@@ -174,7 +174,7 @@ public abstract class Pokemon implements Comparable<Pokemon> {
       }
       s = s + "\n";
       s = s + "HP: " + hP + "\n";
-      s = s + "CP: " + cP;
+      s = s + "CP: " + cP + "\n";
       
       return s;
    }

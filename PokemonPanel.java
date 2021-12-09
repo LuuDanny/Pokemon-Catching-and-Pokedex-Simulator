@@ -11,18 +11,6 @@ import javax.swing.border.*;
 */
 
 public class PokemonPanel extends JPanel {
-
-   /** Text pane. */
-   private JTextArea textPokedex2 = new JTextArea(35,40);
-   /** Empty array list*/
-   private ArrayList<Pokemon> pokeAdd = new ArrayList<>();
-   /** empty backpack container */
-   private JPanel backpackContainer = new JPanel();
-   
-   /** Make textPokedex scrollable. */ 
-   private JScrollPane scroll2 = new JScrollPane(textPokedex2, 
-       JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
-       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
    
    //============= Constant Variables ==================
    /** Range for the random pokemon generation. */
@@ -39,10 +27,14 @@ public class PokemonPanel extends JPanel {
    private String placeHolder = new String("   Pokemon Name");
    /** int variable. */
    private int i = 0;
+   /** int variable keeps track of how many pokemon have been caught. */
+   private int counter = 0;
    /** boolean variable. */
    private boolean foundPokemon = false;
    /** boolean variable. */
    private boolean namePokemon = false;
+   /** Empty array list. */
+   private ArrayList<Pokemon> backpackArray = new ArrayList<>();
    
    /** Empty image. */
    private ImageIcon empty = new ImageIcon("Images/Empty.png");
@@ -79,9 +71,16 @@ public class PokemonPanel extends JPanel {
    private JTextArea textArea2 = new JTextArea(40, 20);
    /** Text pane. */
    private JTextArea textPokedex = new JTextArea("");
+   /** Text pane. */
+   private JTextArea textBackpack = new JTextArea(20, 31);
    
    /** Make textPokedex scrollable. */ 
    private JScrollPane scroll = new JScrollPane(textPokedex, 
+       JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+       
+   /** Make textBackpack scrollable. */ 
+   private JScrollPane scrollBag = new JScrollPane(textBackpack, 
        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -149,6 +148,12 @@ public class PokemonPanel extends JPanel {
    private JPanel backpackTop = new JPanel();
    /** Backpack Sub Panel. */
    private JPanel backpackBottom = new JPanel();
+   /** Backpack Sub Panel. */
+   private JPanel backpackContainer = new JPanel();
+   /** Backpack Sub Panel. */
+   private JPanel backpackContainerTop = new JPanel();
+   /** Backpack Sub Panel. */
+   private JPanel backpackContainerBottom = new JPanel();
    
    /**Bottom Panel: Buttons for card navigation. */
    private JPanel buttonPanel = new JPanel();
@@ -157,8 +162,6 @@ public class PokemonPanel extends JPanel {
 
    /** Background Color .*/
    private Color cBlue = new Color(142, 239, 255);
-   /** Background Color .*/
-   private Color cRed = new Color(255, 20, 0);
    
    /** Border margin 1.*/
    private Border margin1 = new MatteBorder(10, 0, 0, 0, cBlue);
@@ -179,7 +182,7 @@ public class PokemonPanel extends JPanel {
       //Design of titled border
       title.setTitleFont(new Font("Arial", Font.ITALIC, 14));
       
-      //Design of text areas
+      //Design of text areas, fields, and scroll
       textArea.setMaximumSize(textArea.getPreferredSize());
       textArea.setBorder(blackline);
       textArea.setEditable(false);
@@ -188,30 +191,29 @@ public class PokemonPanel extends JPanel {
       textArea2.setBorder(blackline);
       textArea2.setEditable(false);
       textArea2.setFont(f);
-      //textArea2.setMargin(new Insets(15, 15, 15, 15));
       scroll.setBorder(blackline);
-      scroll.setMaximumSize(new Dimension(400, 410));
+      scroll.setMaximumSize(new Dimension(407, 431));
       textPokedex.setBorder(null);
       textPokedex.setEditable(false);
       textPokedex.setFont(f);
-      
-      
-      scroll2.setBorder(blackline);
-      scroll2.setMaximumSize(new Dimension(400, 410));
-      textPokedex2.setBorder(null);
-      textPokedex2.setEditable(false);
-      textPokedex2.setFont(f);
-      
-      
+      scrollBag.setBorder(blackline);
+      scrollBag.setMaximumSize(new Dimension(400, 410));
+      textBackpack.setBorder(null);
+      textBackpack.setEditable(false);
+      textBackpack.setFont(f);
       namingField.setMaximumSize(namingField.getPreferredSize());
       namingField.setBorder(blackline);
       namingField.setFont(f);
       namingField.setForeground(new Color(150, 150, 150)); 
       
-      //Design of buttons
+      //Design of Buttons
       bHunt.setMaximumSize(new Dimension(70, 35));
       bCatch.setMaximumSize(new Dimension(70, 35));
       bName.setMaximumSize(new Dimension(70, 35));
+      bSort.setMaximumSize(new Dimension(70, 35));
+      
+      //Design of Choise
+      sortChoice.setMaximumSize(new Dimension(120, 35));
       
       //Design of Main Panel
       this.setLayout(new BorderLayout());
@@ -231,7 +233,6 @@ public class PokemonPanel extends JPanel {
       pokemonContainerBottom.setBorder(title);
       pokemonContainerButton.setLayout(new BoxLayout(pokemonContainerButton, BoxLayout.Y_AXIS));
       
-      
       //Design for Pokedex Card-Panel and its sub-panels
       cardPokedex.setLayout(new BorderLayout());
       pokedexTop.setBackground(cBlue);
@@ -242,18 +243,20 @@ public class PokemonPanel extends JPanel {
       
       //Design for Backpack Card-Panel and its sub-panels
       cardBackpack.setLayout(new BorderLayout());
-      backpackTop.setLayout(new BoxLayout(backpackTop, BoxLayout.X_AXIS));
+      backpackTop.setBackground(cBlue);
+      backpackBottom.setBackground(cBlue);
+      backpackContainer.setLayout(new BoxLayout(backpackContainer, BoxLayout.Y_AXIS));
       backpackContainer.setPreferredSize(new Dimension(600, 500));
       backpackContainer.setBorder(new CompoundBorder(margin1, blackline));
+      backpackContainerTop.setLayout(new BoxLayout(backpackContainerTop, BoxLayout.X_AXIS));
+      backpackContainerTop.setPreferredSize(new Dimension(300, 50));
+      backpackContainerTop.setBorder(blackline);
+      backpackContainerBottom.setPreferredSize(new Dimension(400, 100));
    
       //Design for Button panel
       buttonPanel.setBackground(cBlue);
       buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.X_AXIS));
       buttonContainer.setBorder(new CompoundBorder(margin2, blackline));
-      
-      //Temporary so that we can see the borders of each panel
-      backpackTop.setBackground(cBlue);
-      backpackBottom.setBackground(cRed);
    
       //========================== Main Panel ==========================
       this.add("Center", deckPanel);
@@ -311,25 +314,31 @@ public class PokemonPanel extends JPanel {
       pokedexTop.add(lPokedex);
       pokedexBottom.add(pokedexContainer);
    
-      pokedexContainer.add(Box.createRigidArea(new Dimension(97, 0)));
+      pokedexContainer.add(Box.createRigidArea(new Dimension(94, 0)));
       pokedexContainer.add(scroll); //Contains textPokedex
       
       //========================== Backpack Card-Panel ==========================
       cardBackpack.add("North", backpackTop);
       cardBackpack.add("Center", backpackBottom);
       
-      //Adding stuff to top sub-panel of backpack card
-      backpackTop.add(Box.createRigidArea(new Dimension(10, 0)));
       backpackTop.add(lBackpack);
-      backpackTop.add(Box.createHorizontalGlue());
-      backpackTop.add(lSort);
-      backpackTop.add(sortChoice);
-      backpackTop.add(Box.createRigidArea(new Dimension(25, 0)));
-      backpackTop.add(bSort);
-      backpackTop.add(Box.createRigidArea(new Dimension(25, 0)));
       backpackBottom.add(backpackContainer);
-      backpackContainer.add(Box.createRigidArea(new Dimension(97, 0)));
-      backpackContainer.add(scroll2);
+      
+      backpackContainer.add(Box.createRigidArea(new Dimension(0, 20)));
+      backpackContainer.add(backpackContainerTop);
+      backpackContainer.add(Box.createRigidArea(new Dimension(0, 20)));
+      backpackContainer.add(backpackContainerBottom);
+      backpackContainer.add(Box.createRigidArea(new Dimension(0, 20)));
+      
+      backpackContainerTop.add(Box.createRigidArea(new Dimension(20, 0)));
+      backpackContainerTop.add(lSort);
+      backpackContainerTop.add(sortChoice);
+      backpackContainerTop.add(Box.createRigidArea(new Dimension(125, 0)));
+      backpackContainerTop.add(bSort);
+      backpackContainerTop.add(Box.createRigidArea(new Dimension(17, 0)));
+      
+      backpackContainerBottom.add(scrollBag);
+      
       //Adding backpack sorting options
       sortChoice.add("Recent");
       sortChoice.add("Number");
@@ -354,7 +363,6 @@ public class PokemonPanel extends JPanel {
       bPokedex.addActionListener(new GUIListener()); 
       bBackpack.addActionListener(new GUIListener()); 
    }
-   
    
    /**
    * private class for FocusListener.
@@ -383,8 +391,9 @@ public class PokemonPanel extends JPanel {
       } 
    } //Closes Gui focus listener
    
-   
    /**
+   * Get Gets the user's choise of sort for the backpack.
+   * Used in Pokemon
    * @return choice menu index
    */
    public static int getChoice() {
@@ -417,28 +426,28 @@ public class PokemonPanel extends JPanel {
          if (event.getSource() == bBackpack) {
             card.show(deckPanel, "backpack");
          }
-         
-         
+         //Sorts the backpack depending on the users choice
          if (event.getSource() == bSort) {
             String forNow = "";
+            //Sort by recent
             if (sortChoice.getSelectedIndex() == 0) {
-               for (int i = pokeAdd.size() - 1; i >= 0; i--) {
-                  forNow = forNow + pokeAdd.get(i).toString() + "\n";
-                  textPokedex2.setText(forNow);
+               for (i = backpackArray.size() - 1; i >= 0; i--) {
+                  forNow = forNow + backpackArray.get(i).toString() + "\n";
+                  textBackpack.setText(forNow);
                }
-            } else {
+            } //Sort by everything else
+            else {
+               //PriorityQueue can read the users choice
                PriorityQueue<Pokemon> temp = new PriorityQueue<>();
-               for (int i = 0; i < pokeAdd.size(); i++) {
-                  temp.add(pokeAdd.get(i));
+               for (i = 0; i < backpackArray.size(); i++) {
+                  temp.add(backpackArray.get(i));
                }
                while (temp.size() > 0) {
                   forNow = forNow + temp.poll().toString() + "\n";
-                  textPokedex2.setText(forNow);
+                  textBackpack.setText(forNow);
                }
             }
          }
-         
-         
          //Randomly generates a new pokemon to capture
          if (event.getSource() == bHunt) {
             i = ranNum.nextInt(RANGE) + 1;
@@ -498,25 +507,27 @@ public class PokemonPanel extends JPanel {
          //Attemps to capture the pokemon
          if (event.getSource() == bCatch) {
             i = ranNum.nextInt(COINFLIP);
-            if (!foundPokemon) { // There is no pokemon
+            // There is no pokemon
+            if (!foundPokemon) { 
                textArea.setText("  There is no Pokemon to catch. Go hunting!"
                      + "\n  --> Press \"Hunt\" to search for a Pokemon.");
-            } else if (i == 0) { // The pokemon escapes
+            } // The pokemon escapes
+            else if (i == 0) { 
                textArea.setText("  " + poke.getSpecies() + " has escaped!" 
                      + "\n  --> Press \"Hunt\" to search for a new Pokemon.");
                //Resests the fields
                image.setIcon(empty);
                textArea2.setText(null);
                foundPokemon = false;
-            } else if (i == 1) { // The pokemon is captured
+            } //The pokemon is captured
+            else if (i == 1) { 
                pokedexBST.add(poke);
+               backpackArray.add(poke);
+               counter++;
                textArea.setText("  Congragulations, you caught " + poke.getSpecies() + "!" 
                      + "\n  --> Press \"Hunt\" to search for a new Pokemon."
                      + "\n  --> If you would like to name your pokemon, then enter the"
                      + "\n      name into the \"Pokemon Name\" field and press \"Name\"");
-               
-               //Jerome this is where you add the pokemon to the backpack (stack, priority queue, linked list ...)
-               pokeAdd.add(poke);
                //Resests the fields
                image.setIcon(empty);
                textArea2.setText(null);
@@ -524,8 +535,10 @@ public class PokemonPanel extends JPanel {
                namePokemon = true;
             }
          }
+         //Attemps to name the pokemon
          if (event.getSource() == bName) {
-            if (!namePokemon && foundPokemon) { // There is pokemon, but have not catched it yet
+            // There is pokemon, but have not catched it yet
+            if (!namePokemon && foundPokemon) { 
                textArea.setText("  You have not caught this pokemon yet. Go hunting/catching!"
                      + "\n  --> Press \"Hunt\" to search for a new Pokemon."
                      + "\n  --> Press \"Catch\" to attempt to capture the Pokemon.");
@@ -548,7 +561,7 @@ public class PokemonPanel extends JPanel {
                poke.setName(namingField.getText());
                
             }
-             // Reset naming field
+            // Reset naming field
             namePokemon = false;
             namingField.setText(placeHolder);
             namingField.setForeground(new Color(150, 150, 150)); 
@@ -563,6 +576,7 @@ public class PokemonPanel extends JPanel {
    * @param p the pokemon being hunted object
    */
    public void hunt(Pokemon p) {
+      //Add pokemon to BST, incrementing the seen counter
       pokedexBST.seen(p);
       textArea.setText("  A wild " + p.getSpecies() + " has appeared!" 
             + "\n  --> Press \"Hunt\" to search for a new Pokemon."
@@ -574,14 +588,7 @@ public class PokemonPanel extends JPanel {
             + "\n\n   Height: " + p.getHeight() 
             + "\n\n   Weight: " + p.getWeight()
             + "\n\n   HP: " + p.getHP() 
-            + "\n\n   CP: " + p.getCP() + "\n"
-
-
-            );
-       //pokeAdd.add(poke);
+            + "\n\n   CP: " + p.getCP() + "\n");
    }
-
-   
-   
 } // Closes class
 
