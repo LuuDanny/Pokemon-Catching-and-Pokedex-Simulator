@@ -17,6 +17,19 @@ public class PokemonPanel extends JPanel {
    private static final int RANGE = 13;
    /** Range for the random coin flip of catching the pokemon. */
    private static final int COINFLIP = 2;
+   /** String msg welcom. */
+   private static final String WELCOME = new String(
+         "  Welcome to the world of Pokemon. Let's catch them all!");
+   /** String msg prompting hunting. */
+   private static final String HUNTMSG = new String(
+         "\n  --> Press \"Hunt\" to search for a new Pokemon.");
+   /** String msg prompting catching. */
+   private static final String CATCHMSG = new String(
+         "\n  --> Press \"Catch\" to attempt to capture the Pokemon.");
+   /** String msg for prompting naming. */
+   private static final String NAMEMSG = new String(
+         "\n  --> If you would like to name your pokemon, then enter the"
+         + "\n      name into the \"Pokemon Name\" field and press \"Name\"");
    
    //============= Instance Variables ==================
    /** pokedex BST. */
@@ -38,6 +51,8 @@ public class PokemonPanel extends JPanel {
    
    /** Empty image. */
    private ImageIcon empty = new ImageIcon("Images/Empty.png");
+   /** Welcome image. */
+   private ImageIcon welcome = new ImageIcon("Images/Welcome.png");
    /** Pokemon image. */
    private ImageIcon pokeball = new ImageIcon("Images/Pokeball.png");
    /** Pokedex image. */
@@ -76,7 +91,7 @@ public class PokemonPanel extends JPanel {
    /** Text area. */
    private JTextArea textArea = new JTextArea(5, 40);
    /** Text area. */
-   private JTextArea textArea2 = new JTextArea(40, 20);
+   private JTextArea textArea2 = new JTextArea(50, 20);
    /** Text pane. */
    private JTextArea textPokedex = new JTextArea("");
    /** Text pane. */
@@ -93,7 +108,7 @@ public class PokemonPanel extends JPanel {
        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
    /** Label for pokemon image. */
-   private JLabel image = new JLabel(empty);
+   private JLabel image = new JLabel(welcome);
    /** Label. */
    private JLabel lPokemon = new JLabel("Pokemon");
    /** Label. */
@@ -180,18 +195,17 @@ public class PokemonPanel extends JPanel {
    /** Border Titled border.*/
    private TitledBorder title = BorderFactory.createTitledBorder(blackline, "Gotta catch 'em all!");
    
-   /** Font: General text.*/
-   private Font textF = new Font("Arial", Font.PLAIN, 15);
    /** Font: Header text.*/
    private Font headerF = new Font("Cambrian", Font.BOLD, 20);
+   /** Font: General text.*/
+   private Font textF = new Font("Arial", Font.PLAIN, 15);
+   /** Font: Title border text.*/
+   private Font titleF = new Font("Arial", Font.ITALIC, 14);
   
    /**
    * Constructor holds everything.
    */
    public PokemonPanel() { 
-      //Design of titled border
-      title.setTitleFont(new Font("Arial", Font.ITALIC, 14));
-      
       //Design of text areas, fields, and scroll
       textArea.setMaximumSize(textArea.getPreferredSize());
       textArea.setBorder(blackline);
@@ -219,14 +233,13 @@ public class PokemonPanel extends JPanel {
       lPokedex.setFont(headerF);
       lBackpack.setFont(headerF);
       
-      //Design of Buttons
+      //Design of Buttons and Choise
       bHunt.setMaximumSize(new Dimension(70, 35));
       bCatch.setMaximumSize(new Dimension(70, 35));
       bName.setMaximumSize(new Dimension(70, 35));
       bSort.setMaximumSize(new Dimension(70, 35));
-      
-      //Design of Choise
       sortChoice.setMaximumSize(new Dimension(119, 35));
+      title.setTitleFont(titleF);
       
       //Design of Main Panel
       this.setLayout(new BorderLayout());
@@ -314,6 +327,8 @@ public class PokemonPanel extends JPanel {
       pokemonContainerButton.add(bHunt);
       pokemonContainerButton.add(Box.createRigidArea(new Dimension(0, 10)));
       pokemonContainerButton.add(bCatch);
+      
+      textArea.setText(WELCOME + HUNTMSG);
       
       namingField.addFocusListener(new GUIFocusListener());
       bName.addActionListener(new GUIListener());
@@ -412,7 +427,6 @@ public class PokemonPanel extends JPanel {
    public static int getChoice() {
       return sortChoice.getSelectedIndex();
    }
-   
    
    /**
    * private class for ActionListener.
@@ -543,11 +557,11 @@ public class PokemonPanel extends JPanel {
             // There is no pokemon
             if (!foundPokemon) { 
                textArea.setText("  There is no Pokemon to catch. Go hunting!"
-                     + "\n  --> Press \"Hunt\" to search for a Pokemon.");
+                     + HUNTMSG);
             } // The pokemon escapes
             else if (i == 0) { 
                textArea.setText("  " + poke.getSpecies() + " has escaped!" 
-                     + "\n  --> Press \"Hunt\" to search for a new Pokemon.");
+                     + HUNTMSG);
                //Resests the fields
                image.setIcon(empty);
                textArea2.setText(null);
@@ -558,9 +572,7 @@ public class PokemonPanel extends JPanel {
                backpackArray.add(poke);
                counter++;
                textArea.setText("  Congragulations, you caught " + poke.getSpecies() + "!" 
-                     + "\n  --> Press \"Hunt\" to search for a new Pokemon."
-                     + "\n  --> If you would like to name your pokemon, then enter the"
-                     + "\n      name into the \"Pokemon Name\" field and press \"Name\"");
+                     + HUNTMSG + NAMEMSG);
                //Resests the fields
                image.setIcon(empty);
                textArea2.setText(null);
@@ -573,22 +585,22 @@ public class PokemonPanel extends JPanel {
             // There is pokemon, but have not catched it yet
             if (!namePokemon && foundPokemon) { 
                textArea.setText("  You have not caught this pokemon yet. Go hunting/catching!"
-                     + "\n  --> Press \"Hunt\" to search for a new Pokemon."
-                     + "\n  --> Press \"Catch\" to attempt to capture the Pokemon.");
+                     + HUNTMSG + CATCHMSG);
             } // There is no pokemon
             else if (!namePokemon) { 
                textArea.setText("  There is no Pokemon to name. Go hunting!"
-                     + "\n  --> Press \"Hunt\" to search for a Pokemon.");
+                     + HUNTMSG);
             } // There is pokemon, but no name
-            else if (namingField.getText().equals(placeHolder) || namingField.getText().trim().equals("")) { 
+            else if (namingField.getText().equals(placeHolder) 
+                  || namingField.getText().trim().equals("")) { 
                textArea.setText("  No name chosen. " 
                      + "\n  " + poke.getSpecies() + "'s name has been set to " + poke.getSpecies()
-                     + ".\n  --> Press \"Hunt\" to search for a Pokemon.");
+                     + "." + HUNTMSG);
             } // There is pokemon and a name has been chosen
             else { 
                textArea.setText("  Congragulations! " + poke.getSpecies() 
                      + "'s name has been set to " + namingField.getText() + "."
-                     + "\n  --> Press \"Hunt\" to search for a new Pokemon.");
+                     + HUNTMSG);
                      
                //Jerome this is where you set the pokemon name in the backpack
                poke.setName(namingField.getText());
@@ -612,8 +624,7 @@ public class PokemonPanel extends JPanel {
       //Add pokemon to BST, incrementing the seen counter
       pokedexBST.seen(p);
       textArea.setText("  A wild " + p.getSpecies() + " has appeared!" 
-            + "\n  --> Press \"Hunt\" to search for a new Pokemon."
-            + "\n  --> Press \"Catch\" to attempt to capture the Pokemon.");
+            + HUNTMSG + CATCHMSG);
       
       textArea2.setText("   Number: " + p.getNumber()
             + "\n\n   Species: " + p.getSpecies() 
