@@ -190,6 +190,7 @@ public abstract class Pokemon implements Comparable<Pokemon> {
       if (newName.length() > 0) {
          this.name = newName;
       } else {
+         this.name = this.species;
          throw new PokemonException("Name should not be empty or contain only spaces!");
       }
    }
@@ -346,162 +347,109 @@ public abstract class Pokemon implements Comparable<Pokemon> {
       return specialAttack;
    }   
    
-   /** ============= CompareTo Method ================== **/
-   /**
-   * Compares two pokemon.
-   * Priority order: number, name, hP, cP, fastAttack, and specialAttack
-   * @param poke2 The second pokemon that is being compared to
-   * @return int a numeric representation of the equivalenve between two pokemon
-   */
-   /*public int compareTo(Pokemon poke2) {
-      int compare = 0;
-   
-      if (this.number != poke2.getNumber()) { 
-      // Compares Number
-         compare = this.number - poke2.getNumber();
-      
-      } else if (!this.name.equals(poke2.getName())) {
-      // Compares Name
-         compare = this.name.compareTo(poke2.getName());
-      
-      } else if (this.hP != poke2.getHP()) {
-      // Compares Hit Points
-         compare = this.hP - poke2.getHP();
-      
-      } else if (this.cP != poke2.getCP()) {
-      // Compares Combat Points
-         compare = this.cP - poke2.getCP();
-      
-      } else if (!this.fastAttack.equals(poke2.getFastAttack())) {
-      // Compares Fast Attack
-         compare = this.fastAttack.compareTo(poke2.getFastAttack());
-      
-      } else if (!this.specialAttack.equals(poke2.getSpecialAttack())) {
-      // Compares Special Attack
-         compare = this.specialAttack.compareTo(poke2.getSpecialAttack());
-      }
-      return compare;
-   } */
-   
    /** ============= equals Method ================== **/
-   /**
+   /*
    * Compares two pokemon using the compareTo method.
    * @param poke2 The second pokemon that is being compared to
    * @return boolean True if both pokemon are equal
    */
-  /* public boolean equals(Pokemon poke2) {
+  public boolean equals(Pokemon poke2) {
       boolean equal = false;
 
       if (compareTo(poke2) == 0) {
          equal = true;
       }
       return equal;
-   } */
-   
-   /** ============= equals Method ================== **/
-   /**
-   * Compares two pokemon using the compareTo method.
-   * @param poke2 The second pokemon that is being compared to
-   * @return boolean True if both pokemon are equal
-   */
-   public boolean equals(Pokemon poke2) {
-      boolean end = false;
-      if (poke2.getNumber() == this.getNumber() && poke2.getName().equals(this.getName()) 
-         && poke2.getHP() == this.getHP() && poke2.getCP() == this.getCP()
-         && poke2.getFastAttack().equals(this.getFastAttack())
-         && poke2.getSpecialAttack().equals(this.getSpecialAttack())) {
-         end = true;
-      } else {
-         end = false;
-      }
-      return end;
-   } 
+   }
+    
    /** ============= CompareTo Method ================== **/
    /**
    * Compares two pokemon.
-   * Priority order: number, name, hP, cP, fastAttack, and specialAttack
+   * Priority order options: 
+   * 1 (default) : number, name, hP, and cP
+   * 2 : name, number, hP, and cP
+   * 3 : hP, number, name, and cP
+   * 4 : cP, number, name, and hP
    * @param poke2 The second pokemon that is being compared to
    * @return int a numeric representation of the equivalenve between two pokemon
    */
    public int compareTo(Pokemon poke2) {
-      int end = 0;
-      int options = PokemonPanel.getChoice();
-      if (options == 1) {
-         if (this.equals(poke2)) {
-            end = 0;
-         } 
-         else if (this.getNumber() != poke2.getNumber()) {
-            end = this.getNumber() - poke2.getNumber();
-         } 
-         else if (this.getName() != this.getSpecies()
-            || poke2.getName() != poke2.getSpecies()) {
-            end = this.getName().compareTo(poke2.getName());
-         } 
-         else if (this.getHP() != poke2.getHP()) {
-            end = this.getHP() - poke2.getHP();
-         } 
-         else if (this.getCP() != poke2.getCP()) {
-            end = this.getCP() - poke2.getCP();
+      int compare = 0;
+      int choise = 1;
+      //Switches priority used based on user's choise 
+      choise = PokemonPanel.getChoice();
+      if (choise == 1) {
+         if (this.number != poke2.getNumber()) {
+            // Compares Number
+            compare = this.number - poke2.getNumber();
+            
+         } else if (!this.name.equals(poke2.getName())) {
+            // Compares Name
+            compare = this.name.compareTo(poke2.getName());
+            
+         } else if (this.hP != poke2.getHP()) {
+            // Compares Hit Points
+            compare = this.hP - poke2.getHP();
+            
+         } else if (this.cP != poke2.getCP()) {
+            // Compares Combat Points
+            compare = this.cP - poke2.getCP();
          }
       } 
-      else if (options == 2) {
-         if (this.equals(poke2)) {
-            end = 0;
-         } 
-         else if (this.getSpecies() != poke2.getSpecies()) {
-            end = this.getSpecies().compareTo(poke2.getSpecies());
-         } 
-         else if (this.getNumber() != poke2.getNumber()) {
-            end = this.getNumber() - poke2.getNumber();
-         } 
-         else if (this.getHP() != poke2.getHP()) {
-            end = this.getHP() - poke2.getHP();
-         } 
-         else if (this.getCP() != poke2.getCP()) {
-            end = this.getCP() - poke2.getCP();
+      else if (choise == 2) {
+         if (!this.name.equals(poke2.getName())) {
+            // Compares Name
+            compare = this.name.compareTo(poke2.getName());
+            
+         } else if (this.number != poke2.getNumber()) {
+            // Compares Number
+            compare = this.number - poke2.getNumber();
+            
+         } else if (this.hP != poke2.getHP()) {
+            // Compares Hit Points
+            compare = this.hP - poke2.getHP();
+            
+         } else if (this.cP != poke2.getCP()) {
+            // Compares Combat Points
+            compare = this.cP - poke2.getCP();
          }
       } 
-      else if (options == 3) {
-         if (this.equals(poke2)) {
-            end = 0;
-         } 
-         else if (this.getHP() != poke2.getHP()) {
-            end = this.getHP() - poke2.getHP();
-         } 
-         else if (this.getNumber() != poke2.getNumber()) {
-            end = this.getNumber() - poke2.getNumber();
-         } 
-         else if (this.getName() != this.getSpecies()
-            || poke2.getName() != poke2.getSpecies()) {
-            end = this.getName().compareTo(poke2.getName());
-         } 
-         else if (this.getCP() != poke2.getCP()) {
-            end = this.getCP() - poke2.getCP();
+      else if (choise == 3) {
+         if (this.hP != poke2.getHP()) {
+            // Compares Hit Points
+            compare = this.hP - poke2.getHP();
+            
+         } else if (this.number != poke2.getNumber()) {
+            // Compares Number
+            compare = this.number - poke2.getNumber();
+            
+         } else if (!this.name.equals(poke2.getName())) {
+            // Compares Name
+            compare = this.name.compareTo(poke2.getName());
+            
+         } else if (this.cP != poke2.getCP()) {
+            // Compares Combat Points
+            compare = this.cP - poke2.getCP();
          }
       } 
-      else if (options == 4) {
-         if (this.equals(poke2)) {
-            end = 0;
-         } 
-         else if (this.getCP() != poke2.getCP()) {
-            end = this.getCP() - poke2.getCP();
-         } 
-         else if (this.getNumber() != poke2.getNumber()) {
-            end = this.getNumber() - poke2.getNumber();
-         } 
-         else if (this.getName() != this.getSpecies()
-            || poke2.getName() != poke2.getSpecies()) {
-            end = this.getName().compareTo(poke2.getName());
-         } 
-         else if (this.getHP() != poke2.getHP()) {
-            end = this.getHP() - poke2.getHP();
+      else if (choise == 4) {
+         if (this.cP != poke2.getCP()) {
+            // Compares Combat Points
+            compare = this.cP - poke2.getCP();
+            
+         } else if (this.number != poke2.getNumber()) {
+            // Compares Number
+            compare = this.number - poke2.getNumber();
+            
+         } else if (!this.name.equals(poke2.getName())) {
+            // Compares Name
+            compare = this.name.compareTo(poke2.getName());
+            
+         } else if (this.hP != poke2.getHP()) {
+            // Compares Hit Points
+            compare = this.hP - poke2.getHP();
          }
       }
-      return end;
-   }
-
+      return compare;
+   } //Closes CompareTo
 } //Closes Class
-
-
-
-

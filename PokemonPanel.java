@@ -38,16 +38,20 @@ public class PokemonPanel extends JPanel {
    private Pokemon poke = new Bulbasaur();
    /** string variable. */
    private String placeHolder = new String("   Pokemon Name");
+   /** string variable. */
+   private String sTemp = new String("");
    /** int variable. */
    private int i = 0;
    /** int variable keeps track of how many pokemon have been caught. */
-   private int counter = 0;
+   private int counter = -1;
    /** boolean variable. */
    private boolean foundPokemon = false;
    /** boolean variable. */
    private boolean namePokemon = false;
    /** Empty array list. */
    private ArrayList<Pokemon> backpackArray = new ArrayList<>();
+   /** Priorty Queue sorted order depends on user's choise. */
+   private PriorityQueue<Pokemon> backpackQueue = new PriorityQueue<>();
    
    /** Empty image. */
    private ImageIcon empty = new ImageIcon("Images/Empty.png");
@@ -455,24 +459,25 @@ public class PokemonPanel extends JPanel {
          }
          //Sorts the backpack depending on the users choice
          if (event.getSource() == bSort) {
-            String forNow = "";
+            //Resets string value
+            sTemp = "";
             //Sort by recent
             if (sortChoice.getSelectedIndex() == 0) {
                for (i = backpackArray.size() - 1; i >= 0; i--) {
-                  forNow = forNow + backpackArray.get(i).toString() + "\n";
-                  textBackpack.setText(forNow);
+                  sTemp = sTemp + backpackArray.get(i).toString() + "\n";
                }
+               textBackpack.setText(sTemp);
             } //Sort by everything else
             else {
-               //PriorityQueue can read the users choice
-               PriorityQueue<Pokemon> temp = new PriorityQueue<>();
+               //Adds all the pokemon in the array to the priorityQueue
                for (i = 0; i < backpackArray.size(); i++) {
-                  temp.add(backpackArray.get(i));
+                  backpackQueue.add(backpackArray.get(i));
                }
-               while (temp.size() > 0) {
-                  forNow = forNow + temp.poll().toString() + "\n";
-                  textBackpack.setText(forNow);
+               //Prints the pokemon in the priority queue in the order based on user's choise
+               while (backpackQueue.size() > 0) {
+                  sTemp = sTemp + backpackQueue.poll().toString() + "\n";
                }
+               textBackpack.setText(sTemp); 
             }
          }
          //Randomly generates a new pokemon to capture
@@ -601,9 +606,8 @@ public class PokemonPanel extends JPanel {
                textArea.setText("  Congragulations! " + poke.getSpecies() 
                      + "'s name has been set to " + namingField.getText() + "."
                      + HUNTMSG);
-                     
-               //Jerome this is where you set the pokemon name in the backpack
                poke.setName(namingField.getText());
+               backpackArray.set(counter, poke);
                
             }
             // Reset naming field
