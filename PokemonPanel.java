@@ -225,7 +225,7 @@ public class PokemonPanel extends JPanel {
       textPokedex.setEditable(false);
       textPokedex.setFont(textF);
       scrollBag.setBorder(blackline);
-      scrollBag.setMaximumSize(new Dimension(400, 410));
+      scrollBag.setMaximumSize(textBackpack.getPreferredSize());
       textBackpack.setBorder(null);
       textBackpack.setEditable(false);
       textBackpack.setFont(textF);
