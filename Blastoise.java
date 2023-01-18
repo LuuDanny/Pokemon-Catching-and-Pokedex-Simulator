@@ -2,7 +2,7 @@
 *Michelle's COPY OF Pokemon "Blastoise" Object class.
 *Child to Wartortle and Squirtle
 *@since 09/27/2021
-*@author Ursula Nichols
+*@author Danny Luu
 */
 
 public class Blastoise extends Wartortle {
